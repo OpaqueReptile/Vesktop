@@ -31,11 +31,20 @@ export const patchDisplayMedia = (options: ScreenSharePatchOptions) => {
         let stream: MediaStream;
 
         if (options.videoId) {
-            stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: options.videoId } } });
+            stream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    autoGainControl: false,
+                    echoCancellation: false,
+                    noiseSuppression: false
+                },
+                video: {
+                    deviceId: { exact: options.videoId }
+                }});
         } else {
             stream = await original.call(this, apiOptions);
         }
 
+        /**
         if (options.audioId) {
             const audio = await navigator.mediaDevices.getUserMedia({
                 audio: {
@@ -62,7 +71,7 @@ export const patchDisplayMedia = (options: ScreenSharePatchOptions) => {
                 audio.getAudioTracks().forEach(t => stream.addTrack(t));
             }
         }
-
+        **/
         return stream;
     };
 };

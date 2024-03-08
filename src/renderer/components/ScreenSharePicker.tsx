@@ -124,15 +124,14 @@ export function openScreenSharePicker(screens: Source[], skipPicker: boolean) {
                                     await VesktopNative.virtmic.start([v.audioSource], v.workaround);
                                 }
                             }
-
-                            patchDisplayMedia({
-                                audioId: v.audioDevice,
-                                venmic: !!v.audioSource && v.audioSource !== "None",
-                                videoId: v.cameraId
-                            });
-
-                            resolve(v);
                         }
+                        patchDisplayMedia({
+                            audioId: v.audioDevice,
+                            venmic: !!v.audioSource && v.audioSource !== "None",
+                            videoId: v.cameraId
+                        });
+
+                        resolve(v);
                     }}
                     close={() => {
                         props.onClose();
@@ -430,7 +429,7 @@ function ModalComponent({
             <Modals.ModalContent className="vcd-screen-picker-modal">
                 {!selected ? (
                     <>
-                        <ScreenPicker screens={screens} chooseScreen={setSelected} isDisabled={!!camera} />
+                        <ScreenPicker screens={screens} chooseScreen={setSelected} isDisabled={false} />
                         <CameraPicker camera={camera} chooseCamera={setCamera} />
                     </>
                 ) : (
